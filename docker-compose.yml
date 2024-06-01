@@ -1,29 +1,40 @@
 version: '3.8'
+
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    image: picpay-app-teste
+    container_name: picpay-app
+    restart: unless-stopped
+    working_dir: /var/www
     volumes:
       - .:/var/www
-    working_dir: /var/www
-    command: bash -c "composer install && php artisan serve --host=0.0.0.0 --port=8000"
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - host
 
   db:
     image: mysql:8.0
+    container_name: picpay-db
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: picpay_simplificado
-      MYSQL_USER: user
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: picpay_teste
+      MYSQL_USER: emanuel91
+      MYSQL_PASSWORD: eag915061
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - host
     ports:
       - "3306:3306"
 
+networks:
+  host:
+    driver: bridge
+
 volumes:
   dbdata:
+    driver: local
