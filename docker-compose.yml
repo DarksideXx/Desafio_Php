@@ -12,6 +12,9 @@ services:
     volumes:
       - .:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      # Montagem dos certificados SSL
+      - C:\Users\emanu\Documents\Desafio_Php\storage\app\certificado.crt:/var/www/certificado.crt
+      - C:\Users\emanu\Documents\Desafio_Php\storage\app\certificado.key:/var/www/certificado.key
     networks:
       - host
 
@@ -31,10 +34,28 @@ services:
     ports:
       - "3306:3306"
 
+  db-test:
+    image: mysql:8.0
+    container_name: picpay-db-test
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: picpay_teste_testing
+      MYSQL_USER: emanuel91
+      MYSQL_PASSWORD: eag915061
+    volumes:
+      - dbdata-test:/var/lib/mysql
+    networks:
+      - host
+    ports:
+      - "3307:3306"
+
 networks:
   host:
     driver: bridge
 
 volumes:
   dbdata:
+    driver: local
+  dbdata-test:
     driver: local

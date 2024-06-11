@@ -1,66 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Desafio_Php
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+O Desafio_Php é uma plataforma de pagamentos simplificada onde é possível depositar e realizar transferências de dinheiro entre usuários comuns e lojistas.
 
-## About Laravel
+## Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Cadastrar Usuário Comum
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Permite cadastrar um usuário comum.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **URL**: `/usuario/cadastrar`
+- **Método**: `POST`
+- **Body**:
 
-## Learning Laravel
+```json
+{
+    "name": "Ze das cove",
+    "email": "zezinho@123.com",
+    "cpf_cnpj": "432.889.666-66",
+    "password": "senha123",
+    "type": "1"
+}
+#obs type 1 pra usuário comum e type 2 para lojista
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Transferência de Dinheiro**:
+- **URL**: `/transfer`
+- **Método**: `POST`
+- **Autenticação**: Requer autenticação JWT
+- **Body**:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```json
+{
+  "value": 100.0,
+  "payer": 4,
+  "payee": 15
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Documentação da API
+Retorna a documentação interativa da API.
 
-## Laravel Sponsors
+URL: `/api/docs`
+Método: `GET`
+Rotas Protegidas
+As rotas a seguir requerem autenticação JWT.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `/home`: Página inicial protegida do usuário.
 
-### Premium Partners
+Testes Unitários
+Os testes unitários estão disponíveis para garantir a integridade das funcionalidades. Eles incluem:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Testes de Transferência: Testes para garantir que a transferência de dinheiro funcione corretamente.
+Migrações do Banco de Dados
+As migrações do banco de dados são usadas para criar a estrutura do banco de dados necessária para o funcionamento do sistema.
 
-## Contributing
+## Configurações
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Banco de Dados**:
+  - Arquivo `.env` contendo as configurações de acesso ao banco de dados.
 
-## Code of Conduct
+- **Docker** (Opcional):
+  - `Dockerfile` e `docker-compose.yml` para configurar o ambiente Dockerizado.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Testes
 
-## Security Vulnerabilities
+- **Testes Unitários**:
+  - Testes para verificar a funcionalidade de transferência de dinheiro.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## PHPStan
+- O PHPStan é usado para garantir a qualidade do código através de análises estáticas. Certifique-se de executar o PHPStan regularmente para detectar possíveis erros no código.
 
-## License
+Para executar o PHPStan, use o seguinte comando:
+./vendor/bin/phpstan analyse
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Instalação e Uso
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/DarksideXx/Desafio_Php.git
+
+2. Instale as dependências do Composer:
+composer install
+
+3. Configure o arquivo .env com as credenciais do banco de dados.
+
+4. Execute as migrações do banco de dados:
+php artisan migrate
+
+5. Inicie o servidor:
+php artisan serve
+
+Documentação da API
+Para acessar a documentação interativa da API, acesse:
+http://localhost:8000/api/docs
+
+Docker (Opcional)
+Se preferir, você pode usar Docker para executar o projeto:
+
+1. Certifique-se de ter o Docker instalado.
+
+2. Execute o seguinte comando na raiz do projeto:
+docker-compose up --build
